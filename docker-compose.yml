@@ -1,0 +1,75 @@
+version: "3"
+services:
+  # frontend:
+  #   container_name: frontend
+  #   build:
+  #     context: ${VOLUNTER_CONTEXT}
+  #     dockerfile: Dockerfile
+  #   image: frontend:latest
+  #   restart: unless-stopped
+  #   env_file: .env
+  #   environment: []
+  #   volumes: []
+  #   ports:
+  #     - "3000:3000"
+  #   networks:
+  #     - play-strapi
+  #   depends_on:
+  #     - play-strapi
+  strapi:
+    container_name: play-strapi
+    build:
+      context: ${STRAPI_CONTEXT}
+      dockerfile: Dockerfile
+    image: play-strapi:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_CLIENT: ${DATABASE_CLIENT}
+      DATABASE_HOST: play-strapiDB
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PORT: ${DATABASE_PORT}
+      JWT_SECRET: ${JWT_SECRET}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      HOST: ${STRAPI_HOST}
+      PORT: ${STRAPI_PORT}
+      NODE_ENV: ${NODE_ENV}
+    volumes:
+      - ${STRAPI_CONTEXT}/config:/opt/app/config
+      - ${STRAPI_CONTEXT}/src:/opt/app/src
+      - ${STRAPI_CONTEXT}/package.json:/opt/package.json
+      - ${STRAPI_CONTEXT}/yarn.lock:/opt/yarn.lock # Replace with package-lock.json if using npm
+      - ${STRAPI_CONTEXT}/.env:/opt/app/.env
+    ports:
+      - "1337:1337"
+    networks:
+      - play-strapi
+    depends_on:
+      - play-strapiDB
+  play-strapiDB:
+    image: postgres:14.0
+    container_name: play-strapiDB
+    platform: linux/amd64 #for platform error on Apple M1 chips
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    volumes:
+      # - strapi-data:/var/lib/postgresql/data/ #using a volume
+      - ./data:/var/lib/postgresql/data/ # if you want to use a bind folder
+    ports:
+      - "5432:5432"
+    networks:
+      - play-strapi
+
+volumes:
+    strapi-data:
+
+networks:
+  play-strapi:
+    name: play-trapi
+    driver: bridge

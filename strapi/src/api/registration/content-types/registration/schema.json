@@ -1,0 +1,47 @@
+{
+  "kind": "collectionType",
+  "collectionName": "registrations",
+  "info": {
+    "singularName": "registration",
+    "pluralName": "registrations",
+    "displayName": "registration",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "email": {
+      "type": "email",
+      "unique": true,
+      "required": true
+    },
+    "password": {
+      "type": "password",
+      "required": true,
+      "minLength": 8
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "new",
+        "approved"
+      ],
+      "default": "new",
+      "required": true
+    },
+    "parent": {
+      "type": "component",
+      "repeatable": false,
+      "component": "person.person-name",
+      "required": true
+    },
+    "children": {
+      "type": "component",
+      "repeatable": true,
+      "component": "person.person-name",
+      "required": true
+    }
+  }
+}
