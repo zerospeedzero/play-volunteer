@@ -1,8 +1,27 @@
 version: "3"
 services:
+  # frontend:
+  #   container_name: frontend
+  #   build:
+  #     context: ${VOLUNTER_CONTEXT}
+  #     dockerfile: Dockerfile
+  #   image: frontend:latest
+  #   restart: unless-stopped
+  #   env_file: .env
+  #   environment: []
+  #   volumes: []
+  #   ports:
+  #     - "3000:3000"
+  #   networks:
+  #     - play-strapi
+  #   depends_on:
+  #     - play-strapi
   strapi:
     container_name: play-strapi
-    image: docker.io/zerospeedzero/play-strapi:latest
+    build:
+      context: ${STRAPI_CONTEXT}
+      dockerfile: Dockerfile
+    image: play-strapi:latest
     restart: unless-stopped
     env_file: .env
     environment:
@@ -18,7 +37,11 @@ services:
       PORT: ${STRAPI_PORT}
       NODE_ENV: ${NODE_ENV}
     volumes:
-      - strapi-config:/opt/app/src
+      - ${STRAPI_CONTEXT}/config:/opt/app/config
+      - ${STRAPI_CONTEXT}/src:/opt/app/src
+      - ${STRAPI_CONTEXT}/package.json:/opt/package.json
+      - ${STRAPI_CONTEXT}/yarn.lock:/opt/yarn.lock # Replace with package-lock.json if using npm
+      - ${STRAPI_CONTEXT}/.env:/opt/app/.env
     ports:
       - "1337:1337"
     networks:
@@ -36,7 +59,8 @@ services:
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
     volumes:
-      - strapi-data:/var/lib/postgresql/data/ #using a volume
+      # - strapi-data:/var/lib/postgresql/data/ #using a volume
+      - ./data:/var/lib/postgresql/data/ # if you want to use a bind folder
     ports:
       - "5432:5432"
     networks:
@@ -44,7 +68,6 @@ services:
 
 volumes:
     strapi-data:
-    strapi-config:
 
 networks:
   play-strapi:

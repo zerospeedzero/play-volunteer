@@ -44,7 +44,19 @@ services:
 
 volumes:
   play-strapi-app:
+    driver: azure_file
+    driver_opts:
+      share_name: play-strapi-app
+      storage_account_name: playvolunteer
+      storage_account_key: ${STORAGE_ACCOUNT_KEY}
+      mount_options: dir_mode=0777,file_mode=0777
   play-strapi-data:
+    driver: azure_file
+    driver_opts:
+      share_name: play-strapi-data
+      storage_account_name: playvolunteer
+      storage_account_key: ${STORAGE_ACCOUNT_KEY}
+      mount_options: dir_mode=0777,file_mode=0777
 
 networks:
   play-strapi:
