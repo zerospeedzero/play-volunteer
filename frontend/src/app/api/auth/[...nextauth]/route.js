@@ -38,18 +38,23 @@ const handler = NextAuth({
   ],
   callbacks: {
     session: async ({ session, token }) => {
+      // console.log('session', session)
+      // console.log('user', user)
+      // console.log('token', token)
       session.id = token.id;
       session.jwt = token.jwt;
       return Promise.resolve(session);
     },
-    jwt: async ({ token, user }) => {
+    jwt: async ({ token, account, user }) => {
+      // console.log(user)
       const isSignIn = user ? true : false;
       if (isSignIn) {
         token.id = user.id;
         token.jwt = user.jwt;
+        token.name = user.username;
       }
       return Promise.resolve(token);
-    },
+    }
   },
 });
 

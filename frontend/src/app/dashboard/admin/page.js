@@ -8,7 +8,7 @@ import CreateActivity from '@/components/CreateActivity'
 
 const Dashboard  = () => {
   const { data: session, status } = useSession();
-  const [isCreateActivityVisible, setIsCreateActivityVisible] = React.useState(false);
+  const [isCreateActivityVisible, setIsCreateActivityVisible] = React.useState(true);
   const openPopup = () => {
     setIsCreateActivityVisible(true);
   };

@@ -17,7 +17,7 @@ const index = () => {
   // console.log('status', status)
   if (status === 'authenticated') {
     const router = useRouter();
-    if (session.user.email === 'zerospeedzero@gmail.com') {
+    if (session.user.email === 'temp6666temp@gmail.com') {
       router.push("/dashboard/admin");
     } else {
       router.push("/dashboard/users");
@@ -32,10 +32,10 @@ const index = () => {
         <Spinner/>
       ):(
         <div className='w-screen h-screen flex flex-col justify-center items-center'>
-          <h2 className='text-4xl mb-8'>P.L.A.Y. Volunteer</h2>
-          <p className='m-4'>To access this service. Please click below button for login</p>
+          <h2 className='text-4xl mb-6'>P.L.A.Y. Volunteer</h2>
+          <p className='mb-6'>To access this service. Please click below button for login</p>
           <Link href="/auth/login">
-            <button className='bg-green-500 text-white p-2 rounded mb-4'>Login</button>
+            <button className='bg-p1/70 px-4 text-white py-2 rounded mb-6'>Login</button>
           </Link>
           <img className="h-[50%] mx-auto" src='/images/welcome.jpg'/>
         </div>

@@ -60,7 +60,7 @@ const Register = () => {
       },
       body: JSON.stringify({ 
         name: formData.parentFirstName + ' ' + formData.parentLastName,
-        username: formData.email,
+        username: formData.parentFirstName + ' ' + formData.parentLastName,
         parent: {
           firstName: formData.parentFirstName,
           lastName: formData.parentLastName,
@@ -74,7 +74,6 @@ const Register = () => {
       })
     });
     const data = await response.json();
-    console.log(data)
     if (data.error) {
       toast.error(data.error.message , {
         position: 'bottom-left',
@@ -88,44 +87,6 @@ const Register = () => {
     } else {
       router.push('/auth/waitApproved')
     }    
-    // let children = []
-    // formData.children.map((child) => {
-    //   children.push({
-    //     firstName: child.childFirstName,
-    //     lastName: child.childLastName,
-    //   })
-    // })
-    // try {
-    //   console.log(children)
-    //   const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/local/register`, {
-    //     name: formData.parentFirstName + ' ' + formData.parentLastName,
-    //     username: formData.email,
-    //     parent: {
-    //       firstName: formData.parentFirstName,
-    //       lastName: formData.parentLastName,
-    //     },
-    //     children: children,
-    //     email: formData.email,
-    //     password: formData.password,
-    //   });
-    //   router.push('/')
-    // } catch (error) { 
-    //   console.log(error)
-    // }
-    // if (data.error) {
-    //   toast.error(data.error.message , {
-    //     position: 'bottom-left',
-    //     autoClose: 2000, // milliseconds
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //   })
-    // } else {
-    //   router.push('/')
-    // }
-    // Handle response as needed
   };
 
   return (
@@ -203,7 +164,7 @@ const Register = () => {
               </div>
             ))}
     
-            <button onClick={handleAddChild} className="w-full bg-blue-500 text-white p-2 rounded mb-4">
+            <button onClick={handleAddChild} className="w-full bg-p2  text-black p-2 rounded mb-4">
               Add Child
             </button>
     
@@ -257,26 +218,26 @@ const Register = () => {
               <span className='text-xs'>Requires at least 8 characters with at least one number, one lowercase letter, and one uppercase letter</span>
             </div>
     
-            <input type="submit" className="w-full mt-4 bg-green-500 text-white p-2 rounded mb-4" value="Create"/>
+            <input type="submit" className="w-full mt-4 bg-p1/80  text-white p-2 rounded mb-4" value="Create"/>
               {/* Create
             </input> */}
     
             <p>
               Already have an account?{' '}
-              <a href="/auth/login" className="text-blue-500">
+              <a href="/auth/login" className="text-s1">
                 Login
               </a>
             </p>
             {/* <div className='flex flex-col justify-center items-center mt-8 h-[30%]'>
               <img src='/images/logo.png' alt='Logo' className='h-[50%]' />
             </div> */}
+          <ToastContainer />
           </form>
     
           {/* Right Panel - Desktop Only */}
           <div className="hidden md:block bg-cover bg-center">
             <img src='/images/register.jpg' alt='Registration Image' className='h-screen  bg-no-repeat' />
           </div>
-          <ToastContainer />
         </div>
       )}
     </>

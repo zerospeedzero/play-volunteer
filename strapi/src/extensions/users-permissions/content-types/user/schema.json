@@ -71,7 +71,7 @@
       "component": "person.person-name",
       "required": true
     },
-    "child": {
+    "children": {
       "type": "component",
       "repeatable": true,
       "component": "person.person-name"

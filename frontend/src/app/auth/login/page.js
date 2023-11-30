@@ -14,6 +14,8 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Spinner from '@/components/Spinner';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -68,8 +70,18 @@ const Login = () => {
     if (result.ok) {
       router.replace('/');
       return;
+    } else {
+      console.log('failed')
+      toast.error('Login failure!!' , {
+        position: 'bottom-left',
+        autoClose: 2000, // milliseconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
     }
-    alert('Credential is not valid');    
   };
 
   return (
@@ -113,13 +125,13 @@ const Login = () => {
             />
           </div>
   
-          <button  className="bg-blue-500 text-white p-2 rounded mb-4">
+          <button  className="bg-p1/80 text-white px-4 py-2 my-2 rounded mb-4">
             Login
           </button>
   
           <p>
             Don't have an account?{' '}
-            <a href="/auth/register" className="text-blue-500">
+            <a href="/auth/register" className="text-s1">
               Register
             </a>
           </p>
@@ -127,6 +139,7 @@ const Login = () => {
             <img src='/images/logo.png' alt='Logo' className='h-[50%]' />
           </div> */}
         </form>
+        <ToastContainer/>
       </div>
 
     )}
